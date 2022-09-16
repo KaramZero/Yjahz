@@ -1,6 +1,5 @@
 package com.example.yjahz.ui.sign_up
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.example.yjahz.R
 import com.example.yjahz.databinding.FragmentSignUpBinding
 import com.example.yjahz.model.InputStatus.*
 import com.example.yjahz.model.Status.*
@@ -23,7 +23,7 @@ class SignUpFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
@@ -42,12 +42,18 @@ class SignUpFragment : Fragment() {
 
         viewModel.inputStatus.observe(viewLifecycleOwner) {
             when (it) {
-                NAME -> binding.editTextTextPersonName.error = "not valid name"
-                EMAIL -> binding.editTextTextEmailAddress.error = "not valid email"
-                PHONE -> binding.editTextPhone.error = "not valid phone"
-                PASSWORD -> binding.editTextTextPassword.error = "not valid password"
+                NAME -> binding.editTextTextPersonName.error = getString(R.string.not_valid_name)
+
+                EMAIL -> binding.editTextTextEmailAddress.error =
+                    getString(R.string.not_valid_email)
+
+                PHONE -> binding.editTextPhone.error = getString(R.string.not_valid_phone)
+
+                PASSWORD -> binding.editTextTextPassword.error =
+                    getString(R.string.not_valid_password)
+
                 CONFIRM_PASSWORD -> binding.editTextTextConfirmPassword.error =
-                    "not the same as password"
+                    getString(R.string.not_the_same_as_password)
                 null -> {}
             }
         }

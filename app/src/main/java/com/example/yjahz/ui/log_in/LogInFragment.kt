@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.example.yjahz.R
 import com.example.yjahz.databinding.FragmentLogInBinding
+import com.example.yjahz.model.InputStatus.*
 import com.example.yjahz.model.Status.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,8 +60,9 @@ class LogInFragment : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                 }
                 ERROR -> {
-                    binding.editTextTextPassword.error = "wrong"
-                    binding.editTextTextEmailAddress.error = "wrong"
+                    Toast.makeText(context, getString(R.string.wrong_emal_or_password), Toast.LENGTH_LONG).show()
+                    binding.editTextTextPassword.error = getString(R.string.check_password)
+                    binding.editTextTextEmailAddress.error = getString(R.string.check_email)
                     binding.logInButton.isEnabled = true
                     binding.progressBar.visibility = View.GONE
                 }
@@ -78,6 +82,14 @@ class LogInFragment : Fragment() {
                     binding.logInButton.isEnabled = true
                     binding.progressBar.visibility = View.GONE
                 }
+            }
+        }
+
+        viewModel.inputStatus.observe(viewLifecycleOwner) {
+            when (it) {
+                EMAIL -> binding.editTextTextEmailAddress.error = getString(R.string.invalid_email)
+                PASSWORD -> binding.editTextTextPassword.error = getString(R.string.invalid_password)
+                else -> {}
             }
         }
 

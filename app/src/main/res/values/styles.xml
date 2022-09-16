@@ -12,11 +12,11 @@
 
     <style name="email_edittext_style">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_height">54dp</item>
         <item name="android:elevation">50dp</item>
         <item name="android:layout_marginTop">35sp</item>
         <item name="android:layout_marginHorizontal">20sp</item>
-        <item name="android:background">@drawable/background_corners_white</item>
+        <item name="android:background">@drawable/background_corners_white_gradient</item>
         <item name="android:textSize">14sp</item>
         <item name="android:paddingHorizontal">16dp</item>
     </style>

@@ -72,6 +72,11 @@ class HomeFragment : Fragment() {
         val name = "Hello ${args.name}"
         binding.nameText.text = name
 
+        binding.searchView.setOnClickListener{
+            binding.searchEditTextText.isEnabled = true
+            binding.searchEditTextText.requestFocus()
+        }
+
     }
 
     private fun setAdaptersOnViews(
