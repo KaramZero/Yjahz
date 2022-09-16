@@ -10,11 +10,8 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.yjahz.databinding.FragmentSignUpBinding
-import com.example.yjahz.model.pojo.InputStatus
-import com.example.yjahz.model.pojo.InputStatus.*
-import com.example.yjahz.model.pojo.Status
-import com.example.yjahz.model.pojo.Status.*
-import com.example.yjahz.ui.log_in.LogInFragmentDirections
+import com.example.yjahz.model.InputStatus.*
+import com.example.yjahz.model.Status.*
 
 class SignUpFragment : Fragment() {
 

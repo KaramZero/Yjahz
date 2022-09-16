@@ -1,4 +1,4 @@
-package com.example.yjahz.model.pojo
+package com.example.yjahz.model.user
 
 import com.google.gson.annotations.SerializedName
 

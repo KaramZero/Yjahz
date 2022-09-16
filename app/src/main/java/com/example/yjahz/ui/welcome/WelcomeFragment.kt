@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.yjahz.databinding.FragmentWelcomeBinding
-import com.example.yjahz.model.pojo.Status.*
+import com.example.yjahz.model.Status.*
 
 
 class WelcomeFragment : Fragment() {

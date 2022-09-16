@@ -7,10 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yjahz.model.pojo.InputStatus
-import com.example.yjahz.model.pojo.User
+import com.example.yjahz.model.InputStatus
+import com.example.yjahz.model.user.User
 import com.example.yjahz.remote_source.AuthRemoteSource
-import com.example.yjahz.model.pojo.Status
+import com.example.yjahz.model.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

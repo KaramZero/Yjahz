@@ -1,7 +1,7 @@
 package com.example.yjahz.remote_source
 
 import android.util.Log
-import com.example.yjahz.model.pojo.User
+import com.example.yjahz.model.user.User
 import com.example.yjahz.network.Keys
 import com.example.yjahz.network.RetrofitHelper
 import com.example.yjahz.network.YogahezAuthApiServices
@@ -34,7 +34,7 @@ class AuthRemoteSource private constructor(){
         )
     }
 
-    suspend fun logIn(email: String,password: String):User{
+    suspend fun logIn(email: String,password: String): User {
         val res = api.logIn(getLogInRequestBody(email,password))
 
         Log.e("TAG", "logIn:  ${res.body()!!.get("success")}", )
@@ -46,7 +46,7 @@ class AuthRemoteSource private constructor(){
         )
     }
 
-    suspend fun signUp(name:String,email:String ="null",password:String="null",phone:String):User{
+    suspend fun signUp(name:String,email:String ="null",password:String="null",phone:String): User {
         val res = api.signUp(Keys.headers,getSignUpRequestBody(name,email,password,phone))
 
         Log.e("TAG", "logIn:  ${res.body()!!.get("success")}", )
