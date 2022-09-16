@@ -4,7 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="view_all"><u>View all</u></string>
     <string name="home">Home</string>
-    <string name="search_for_fav_food">Search for fav food ...</string>
+    <string name="search_for_fav_food">Search for fav food …</string>
     <string name="categories">Categories</string>
     <string name="popular_now">Popular now</string>
     <string name="trending_now">Trending now</string>
