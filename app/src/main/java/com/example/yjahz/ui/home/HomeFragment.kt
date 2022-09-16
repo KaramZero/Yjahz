@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
@@ -75,6 +76,12 @@ class HomeFragment : Fragment() {
         binding.searchView.setOnClickListener{
             binding.searchEditTextText.isEnabled = true
             binding.searchEditTextText.requestFocus()
+        }
+
+        binding.backButton.setOnClickListener {
+            if(!view.findNavController().popBackStack()){
+                requireActivity().finish()
+            }
         }
 
     }
