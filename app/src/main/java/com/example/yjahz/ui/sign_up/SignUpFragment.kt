@@ -12,7 +12,9 @@ import androidx.navigation.findNavController
 import com.example.yjahz.databinding.FragmentSignUpBinding
 import com.example.yjahz.model.InputStatus.*
 import com.example.yjahz.model.Status.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpFragment : Fragment() {
 
     private var _binding: FragmentSignUpBinding? = null
@@ -36,8 +38,6 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = ViewModelProvider(this)[SignUpViewModel::class.java]
-        viewModel.sharedPreferences =
-            this.requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
 
 
         viewModel.inputStatus.observe(viewLifecycleOwner) {

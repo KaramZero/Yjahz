@@ -1,9 +1,7 @@
 package com.example.yjahz.remote_source
 
-import android.util.Log
 import com.example.yjahz.model.user.User
 import com.example.yjahz.network.Keys
-import com.example.yjahz.network.RetrofitHelper
 import com.example.yjahz.network.YogahezAuthApiServices
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -12,22 +10,19 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AuthRemoteSource private constructor(){
+@Singleton
+class AuthRemoteSource @Inject constructor(){
 
-    private val gson = Gson()
-    private val api = RetrofitHelper.getInstance().create(YogahezAuthApiServices::class.java)
+    @Inject lateinit var gson : Gson
+    @Inject lateinit var api : YogahezAuthApiServices
 
-    companion object {
-        private var remoteSource: AuthRemoteSource? = null
-        fun getInstance(): AuthRemoteSource {
-            return remoteSource ?: AuthRemoteSource()
-        }
-    }
 
     suspend fun getClientProfile(): User {
         val res = api.getClientProfile(Keys.headers)
-        Log.d("TAG", "getClientProfile: ${res} ")
+
         return gson.fromJson(
             res.body()!!.get("data")as JsonObject,
             object : TypeToken<User>() {}.type
@@ -37,9 +32,8 @@ class AuthRemoteSource private constructor(){
     suspend fun logIn(email: String,password: String): User {
         val res = api.logIn(getLogInRequestBody(email,password))
 
-        Log.e("TAG", "logIn:  ${res.body()!!.get("success")}", )
-
         if (res.body()!!.get("success").toString() == "false") throw Exception("Wrong data")
+
         return gson.fromJson(
             res.body()!!.get("data")as JsonObject,
             object : TypeToken<User>() {}.type
@@ -49,9 +43,8 @@ class AuthRemoteSource private constructor(){
     suspend fun signUp(name:String,email:String ="null",password:String="null",phone:String): User {
         val res = api.signUp(Keys.headers,getSignUpRequestBody(name,email,password,phone))
 
-        Log.e("TAG", "logIn:  ${res.body()!!.get("success")}", )
-
         if (res.body()!!.get("success").toString() == "false") throw Exception(res.body()!!.get("message").toString())
+
         return gson.fromJson(
             res.body()!!.get("data")as JsonObject,
             object : TypeToken<User>() {}.type

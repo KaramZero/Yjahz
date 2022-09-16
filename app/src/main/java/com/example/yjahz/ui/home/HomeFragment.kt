@@ -7,16 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.AutoTransition
-import androidx.transition.Explode
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.example.yjahz.databinding.FragmentHomeBinding
 import com.example.yjahz.ui.home.adapters.CategoryAdapter
 import com.example.yjahz.ui.home.adapters.PopularSellerAdapter
 import com.example.yjahz.ui.home.adapters.TrendingSellerAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
+
+
+    @Inject lateinit var categoryAdapter :CategoryAdapter
+    @Inject lateinit var trendingSellerAdapter : TrendingSellerAdapter
+    @Inject lateinit var popularSellerAdapter : PopularSellerAdapter
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -24,7 +30,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -38,14 +44,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val categoryAdapter = CategoryAdapter(requireContext())
-        val trendingSellerAdapter = TrendingSellerAdapter(requireContext())
-        val popularSellerAdapter = PopularSellerAdapter(requireContext())
-
         setAdaptersOnViews(categoryAdapter, trendingSellerAdapter, popularSellerAdapter)
 
 
         val viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+
         viewModel.loadDataFromApi()
 
         viewModel.categories.observe(viewLifecycleOwner){
@@ -64,9 +67,10 @@ class HomeFragment : Fragment() {
         }
 
 
-        var args = HomeFragmentArgs.fromBundle(requireArguments())
+        val args = HomeFragmentArgs.fromBundle(requireArguments())
 
-        binding.nameText.text = "Hello ${args.name}"
+        val name = "Hello ${args.name}"
+        binding.nameText.text = name
 
     }
 

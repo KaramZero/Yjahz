@@ -18,30 +18,32 @@ import javax.inject.Inject
 @HiltViewModel
 class LogInViewModel @Inject constructor() : ViewModel() {
 
+
+    @Inject
+    lateinit var remoteSource: AuthRemoteSource
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
+    var user = User()
     private val _logInStatus = MutableLiveData<Status?>()
     val logInStatus: LiveData<Status?> = _logInStatus
-    private var remoteSource = AuthRemoteSource.getInstance()
 
-    lateinit var sharedPreferences:SharedPreferences
-    var user = User()
 
-    fun logIn(email:String ="null",password:String="null"){
+    fun logIn(email: String = "null", password: String = "null") {
         _logInStatus.postValue(Status.LOADING)
 
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                user = remoteSource.logIn(email,password)
-                sharedPreferences.edit().putString("token",user.token).apply()
+                user = remoteSource.logIn(email, password)
+                sharedPreferences.edit().putString("token", user.token).apply()
                 _logInStatus.postValue(Status.DONE)
-            }catch (ex : Exception){
-                Log.e("TAG", "logIn:  $ex", )
+            } catch (ex: Exception) {
+                Log.e("TAG", "logIn:  $ex")
                 _logInStatus.postValue(Status.ERROR)
             }
         }
     }
 
-    fun statusCompleted(){
-        _logInStatus.value = null
-    }
 
 }

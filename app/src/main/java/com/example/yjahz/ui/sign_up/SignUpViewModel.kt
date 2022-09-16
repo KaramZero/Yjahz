@@ -20,6 +20,13 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor() : ViewModel() {
 
+    @Inject
+    lateinit var remoteSource: AuthRemoteSource
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
+    var user = User()
     private val _signUpStatus = MutableLiveData<Status?>()
     val signUpStatus: LiveData<Status?> = _signUpStatus
 
@@ -27,14 +34,16 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
     val inputStatus: LiveData<InputStatus?> = _inputStatus
 
     private val _message = MutableLiveData<String>()
-    val message : LiveData<String> = _message
+    val message: LiveData<String> = _message
 
-    private var remoteSource = AuthRemoteSource.getInstance()
-
-    lateinit var sharedPreferences:SharedPreferences
-    var user = User()
-
-    fun signUp(name:String,email:String,password:String , confirmPassword:String ,phone:String){
+    fun signUp(
+        name: String,
+        email: String,
+        password: String,
+        confirmPassword: String,
+        phone: String
+    ) {
+        //Check input validation then call Api
         if (inputIsValid(name, email, password, confirmPassword, phone))
             callApiToSignUp(name, email, password, phone)
     }
@@ -60,25 +69,31 @@ class SignUpViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun inputIsValid(name:String,email:String,password:String, confirmPassword:String,phone:String):Boolean{
-       var res = true
-        if (name.isEmpty()){
+    private fun inputIsValid(
+        name: String,
+        email: String,
+        password: String,
+        confirmPassword: String,
+        phone: String
+    ): Boolean {
+        var res = true
+        if (name.isEmpty()) {
             _inputStatus.value = InputStatus.NAME
             res = false
         }
-        if (!(email.contains('@') && Patterns.EMAIL_ADDRESS.matcher(email).matches())){
+        if (!(email.contains('@') && Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
             _inputStatus.value = InputStatus.EMAIL
             res = false
         }
-        if (phone.length < 11 || !Patterns.EMAIL_ADDRESS.matcher(phone).matches()){
+        if (phone.length < 11 || !Patterns.PHONE.matcher(phone).matches()) {
             _inputStatus.value = InputStatus.PHONE
             res = false
         }
-        if (password.length < 6){
+        if (password.length < 6) {
             _inputStatus.value = InputStatus.PASSWORD
             res = false
         }
-        if (confirmPassword != password){
+        if (confirmPassword != password) {
             _inputStatus.value = InputStatus.CONFIRM_PASSWORD
             res = false
         }

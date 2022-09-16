@@ -19,32 +19,42 @@ import javax.inject.Inject
 @HiltViewModel
 class WelcomeViewModel @Inject constructor()  : ViewModel() {
 
-    private var remoteSource = AuthRemoteSource.getInstance()
+    @Inject lateinit var remoteSource :AuthRemoteSource
 
+    @Inject lateinit var sharedPreferences :SharedPreferences
+
+    var user = User()
     private val _clientStatus = MutableLiveData<Status>()
     val clientStatus: LiveData<Status> = _clientStatus
 
-    lateinit var sharedPreferences :SharedPreferences
-    var user = User()
 
     fun getClient() {
         _clientStatus.postValue(Status.LOADING)
 
-        sharedPreferences.getString("token","null")?.apply {
+        //getting saved token if exists
+        getToken()
+
+        //fetching Client Profile from API
+        fetchClientProfileFromApi()
+    }
+
+    private fun getToken() {
+        sharedPreferences.getString("token", "null")?.apply {
             Keys.AuthorizationToken = "Bearer ${this.trim()}"
         }
+    }
 
-
+    private fun fetchClientProfileFromApi() {
         viewModelScope.launch(Dispatchers.Main) {
             try {
                 user = remoteSource.getClientProfile()
-                Log.d("TAG", "getClient: $user ")
                 _clientStatus.postValue(Status.DONE)
             } catch (ex: Exception) {
-                Log.d("TAG", "getClient: $ex ")
+                Log.e("TAG", "getClient: $ex ")
                 _clientStatus.postValue(Status.ERROR)
             }
         }
     }
+
 
 }

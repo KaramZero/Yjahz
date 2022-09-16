@@ -1,6 +1,5 @@
 package com.example.yjahz.ui.welcome
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.yjahz.databinding.FragmentWelcomeBinding
 import com.example.yjahz.model.Status.*
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class WelcomeFragment : Fragment() {
 
     private var _binding: FragmentWelcomeBinding? = null
@@ -20,7 +20,7 @@ class WelcomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -31,12 +31,9 @@ class WelcomeFragment : Fragment() {
 
         val viewModel = ViewModelProvider(this)[WelcomeViewModel::class.java]
 
-        viewModel.sharedPreferences =
-            this.requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
-
         viewModel.getClient()
 
-
+        //Observing getting Client Profile status
         viewModel.clientStatus.observe(viewLifecycleOwner) {
             when (it) {
                 LOADING -> binding.progressBar.visibility = View.VISIBLE
@@ -58,7 +55,6 @@ class WelcomeFragment : Fragment() {
             }
         }
 
-
     }
 
     private fun navigateToLogIn(view: View) {
@@ -70,6 +66,8 @@ class WelcomeFragment : Fragment() {
         viewModel: WelcomeViewModel,
         view: View
     ) {
+
+        //preparing Client Info to be sent to The Home Fragment
         val name = viewModel.user.name ?: "no name"
         var address = "null"
         if (viewModel.user.addresses.size > 0) {

@@ -1,5 +1,6 @@
 package com.example.yjahz.ui.home.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.yjahz.databinding.CategoryItemBinding
 import com.example.yjahz.model.Category
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.scopes.FragmentScoped
+import javax.inject.Inject
 
-
-class CategoryAdapter(val context: Context) :
+@FragmentScoped
+class CategoryAdapter @Inject constructor(@ActivityContext val context: Context) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
     private var categoryList: ArrayList<Category> = arrayListOf()
 
@@ -34,6 +38,7 @@ class CategoryAdapter(val context: Context) :
         return categoryList.count()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(categoryList: ArrayList<Category>) {
         this.categoryList = categoryList
         notifyDataSetChanged()

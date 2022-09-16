@@ -140,14 +140,14 @@
     <EditText
         android:id="@+id/search_editTextText"
         style="@style/email_edittext_style"
-        android:layout_width="240dp"
+        android:layout_width="270dp"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="0dp"
         android:ems="10"
         android:hint="Search for fav food ..."
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/address_text"
-        app:layout_constraintStart_toStartOf="@+id/address_text"
+        app:layout_constraintStart_toStartOf="@+id/name_text"
         app:layout_constraintTop_toBottomOf="@+id/address_text" />
 
     <FrameLayout
@@ -201,21 +201,21 @@
                 <TextView
                     android:id="@+id/categories_textView"
                     style="@style/categories_textView_style"
-                    android:text="Categories."
+                    android:text="Categories"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/popular_textView"
                     style="@style/categories_textView_style"
-                    android:text="Popular now."
+                    android:text="Popular now"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/categories_recyclerView" />
 
                 <TextView
                     android:id="@+id/trending_textView"
                     style="@style/categories_textView_style"
-                    android:text="Trending now."
+                    android:text="Trending now"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/popular_recyclerView" />
 
