@@ -21,9 +21,12 @@ import javax.inject.Inject
 class HomeFragment : Fragment() {
 
 
-    @Inject lateinit var categoryAdapter :CategoryAdapter
-    @Inject lateinit var trendingSellerAdapter : TrendingSellerAdapter
-    @Inject lateinit var popularSellerAdapter : PopularSellerAdapter
+    @Inject
+    lateinit var categoryAdapter: CategoryAdapter
+    @Inject
+    lateinit var trendingSellerAdapter: TrendingSellerAdapter
+    @Inject
+    lateinit var popularSellerAdapter: PopularSellerAdapter
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -52,17 +55,17 @@ class HomeFragment : Fragment() {
 
         viewModel.loadDataFromApi()
 
-        viewModel.categories.observe(viewLifecycleOwner){
+        viewModel.categories.observe(viewLifecycleOwner) {
             categoryAdapter.setData(it)
             TransitionManager.beginDelayedTransition(binding.categoriesRecyclerView, Slide())
         }
 
-        viewModel.popularSellers.observe(viewLifecycleOwner){
+        viewModel.popularSellers.observe(viewLifecycleOwner) {
             popularSellerAdapter.setData(it)
             TransitionManager.beginDelayedTransition(binding.popularRecyclerView, Slide())
         }
 
-        viewModel.trendingSellers.observe(viewLifecycleOwner){
+        viewModel.trendingSellers.observe(viewLifecycleOwner) {
             trendingSellerAdapter.setData(it)
             TransitionManager.beginDelayedTransition(binding.trendingRecycleView, Slide())
         }
@@ -73,13 +76,13 @@ class HomeFragment : Fragment() {
         val name = "Hello ${args.name}"
         binding.nameText.text = name
 
-        binding.searchView.setOnClickListener{
+        binding.searchView.setOnClickListener {
             binding.searchEditTextText.isEnabled = true
             binding.searchEditTextText.requestFocus()
         }
 
         binding.backButton.setOnClickListener {
-            if(!view.findNavController().popBackStack()){
+            if (!view.findNavController().popBackStack()) {
                 requireActivity().finish()
             }
         }
