@@ -60,9 +60,11 @@ class LogInFragment : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                 }
                 ERROR -> {
-                    Toast.makeText(context, getString(R.string.wrong_emal_or_password), Toast.LENGTH_LONG).show()
-                    binding.editTextTextPassword.error = getString(R.string.check_password)
-                    binding.editTextTextEmailAddress.error = getString(R.string.check_email)
+                    Toast.makeText(
+                        context,
+                        getString(R.string.wrong_emal_or_password),
+                        Toast.LENGTH_LONG
+                    ).show()
                     binding.logInButton.isEnabled = true
                     binding.progressBar.visibility = View.GONE
                 }
@@ -88,7 +90,8 @@ class LogInFragment : Fragment() {
         viewModel.inputStatus.observe(viewLifecycleOwner) {
             when (it) {
                 EMAIL -> binding.editTextTextEmailAddress.error = getString(R.string.invalid_email)
-                PASSWORD -> binding.editTextTextPassword.error = getString(R.string.invalid_password)
+                PASSWORD -> binding.editTextTextPassword.error =
+                    getString(R.string.invalid_password)
                 else -> {}
             }
         }

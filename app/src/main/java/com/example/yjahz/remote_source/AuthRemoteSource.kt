@@ -4,8 +4,6 @@ import com.example.yjahz.model.user.User
 import com.example.yjahz.network.Keys
 import com.example.yjahz.network.YogahezAuthApiServices
 import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.reflect.TypeToken
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -14,44 +12,40 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AuthRemoteSource @Inject constructor(){
+class AuthRemoteSource @Inject constructor() {
 
-    @Inject lateinit var gson : Gson
-    @Inject lateinit var api : YogahezAuthApiServices
+    @Inject
+    lateinit var gson: Gson
+    @Inject
+    lateinit var api: YogahezAuthApiServices
 
 
     suspend fun getClientProfile(): User {
-        val res = api.getClientProfile(Keys.headers)
-
-        return gson.fromJson(
-            res.body()!!.get("data")as JsonObject,
-            object : TypeToken<User>() {}.type
-        )
+        return api.getClientProfile(Keys.headers).user!!
     }
 
-    suspend fun logIn(email: String,password: String): User {
-        val res = api.logIn(getLogInRequestBody(email,password))
+    suspend fun logIn(email: String, password: String): User {
+        val res = api.logIn(getLogInRequestBody(email, password))
 
-        if (res.body()!!.get("success").toString() == "false") throw Exception("Wrong data")
+        if (res.success == false) throw Exception(res.message)
 
-        return gson.fromJson(
-            res.body()!!.get("data")as JsonObject,
-            object : TypeToken<User>() {}.type
-        )
+        return res.user!!
     }
 
-    suspend fun signUp(name:String,email:String ="null",password:String="null",phone:String): User {
-        val res = api.signUp(Keys.headers,getSignUpRequestBody(name,email,password,phone))
+    suspend fun signUp(
+        name: String,
+        email: String = "null",
+        password: String = "null",
+        phone: String
+    ): User {
+        val res = api.signUp(Keys.headers, getSignUpRequestBody(name, email, password, phone))
 
-        if (res.body()!!.get("success").toString() == "false") throw Exception(res.body()!!.get("message").toString())
+        if (res.success == false) throw Exception(res.message)
 
-        return gson.fromJson(
-            res.body()!!.get("data")as JsonObject,
-            object : TypeToken<User>() {}.type
-        )
+        return res.user!!
     }
 
-    private fun getLogInRequestBody(email:String,password:String): RequestBody {
+    private fun getLogInRequestBody(email: String, password: String): RequestBody {
 
         val jsonReq = JSONObject()
         jsonReq.put("email", email)
@@ -59,7 +53,12 @@ class AuthRemoteSource @Inject constructor(){
         return jsonReq.toString().toRequestBody("application/json".toMediaTypeOrNull())
     }
 
-    private fun getSignUpRequestBody(name:String,email:String ="null",password:String="null",phone:String): RequestBody {
+    private fun getSignUpRequestBody(
+        name: String,
+        email: String = "null",
+        password: String = "null",
+        phone: String
+    ): RequestBody {
 
         val jsonReq = JSONObject()
         jsonReq.put("name", name)

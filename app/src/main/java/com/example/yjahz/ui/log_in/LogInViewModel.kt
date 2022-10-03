@@ -51,6 +51,10 @@ class LogInViewModel @Inject constructor() : ViewModel() {
                 _logInStatus.postValue(Status.DONE)
             } catch (ex: Exception) {
                 Log.e("TAG", "logIn:  $ex")
+                when(ex.message){
+                    "wrong password" -> _inputStatus.postValue(InputStatus.PASSWORD)
+                    "User is not existed!" -> _inputStatus.postValue(InputStatus.EMAIL)
+                }
                 _logInStatus.postValue(Status.ERROR)
             }
         }
