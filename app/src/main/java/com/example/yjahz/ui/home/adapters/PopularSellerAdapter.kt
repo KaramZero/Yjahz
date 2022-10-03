@@ -1,9 +1,10 @@
 package com.example.yjahz.ui.home.adapters
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.yjahz.databinding.PopularItemBinding
@@ -14,8 +15,7 @@ import javax.inject.Inject
 
 @FragmentScoped
 class PopularSellerAdapter @Inject constructor(@ActivityContext val context: Context) :
-    RecyclerView.Adapter<PopularSellerAdapter.ViewHolder>() {
-    private var sellerList: ArrayList<Seller> = arrayListOf()
+    ListAdapter<Seller, PopularSellerAdapter.ViewHolder>(SellerDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = PopularItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,31 +24,42 @@ class PopularSellerAdapter @Inject constructor(@ActivityContext val context: Con
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val currentItem = sellerList[position]
+        val currentItem = getItem(position)
 
-        holder.binding.apply {
-            titleTxt.text = currentItem.name
-            ratingBar.setRating(currentItem.rate?.toFloat() ?: 5.0f)
-            ratingTextView.text = currentItem.rate
-            val dis = "${currentItem.distance?.toInt()?.div(100)?.div(10.0)} Km"
-            distance.text = dis
-            Glide.with(context)
-                .load(currentItem.image)
-                .into(productImageView)
-        }
+        holder.bind(seller = currentItem, context = context)
 
     }
 
-    override fun getItemCount(): Int {
-        return sellerList.count()
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(sellerList: ArrayList<Seller>) {
-        this.sellerList = sellerList
-        notifyDataSetChanged()
+        this.submitList(sellerList)
     }
 
-    class ViewHolder(val binding: PopularItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(private val binding: PopularItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(seller: Seller, context: Context) {
+            binding.apply {
+                titleTxt.text = seller.name
+                ratingBar.setRating(seller.rate?.toFloat() ?: 5.0f)
+                ratingTextView.text = seller.rate
+                val dis = "${seller.distance?.toInt()?.div(100)?.div(10.0)} Km"
+                distance.text = dis
+                Glide.with(context)
+                    .load(seller.image)
+                    .into(productImageView)
+            }
+        }
+    }
+
+}
+
+
+class SellerDiffCallback : DiffUtil.ItemCallback<Seller>() {
+    override fun areItemsTheSame(oldItem: Seller, newItem: Seller): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Seller, newItem: Seller): Boolean {
+        return oldItem == newItem
+    }
 
 }

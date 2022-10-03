@@ -1,10 +1,9 @@
-
 package com.example.yjahz.ui.home.adapters
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.yjahz.databinding.TrendingItemBinding
@@ -15,35 +14,35 @@ import javax.inject.Inject
 
 @FragmentScoped
 class TrendingSellerAdapter @Inject constructor(@ActivityContext val context: Context) :
-    RecyclerView.Adapter<TrendingSellerAdapter.ViewHolder>() {
-    private var sellerList: ArrayList<Seller> = arrayListOf()
+    ListAdapter<Seller, TrendingSellerAdapter.ViewHolder>(SellerDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = TrendingItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            TrendingItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val currentItem = sellerList[position]
-        holder.binding.apply {
-            Glide.with(context)
-                .load(currentItem.image)
-                .into(productImageView)
-        }
-
+        val currentItem = getItem(position)
+        holder.bind(seller = currentItem, context = context)
     }
 
-    override fun getItemCount(): Int {
-        return sellerList.count()
-    }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(sellerList: ArrayList<Seller>) {
-        this.sellerList = sellerList
-        notifyDataSetChanged()
+        this.submitList(sellerList)
     }
 
-    class ViewHolder(val binding: TrendingItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(private val binding: TrendingItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(seller: Seller, context: Context) {
+            binding.apply {
+                Glide.with(context)
+                    .load(seller.image)
+                    .into(productImageView)
+            }
+        }
+    }
 
 }
+

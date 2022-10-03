@@ -1,9 +1,10 @@
 package com.example.yjahz.ui.home.adapters
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.yjahz.databinding.CategoryItemBinding
@@ -14,36 +15,46 @@ import javax.inject.Inject
 
 @FragmentScoped
 class CategoryAdapter @Inject constructor(@ActivityContext val context: Context) :
-    RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
-    private var categoryList: ArrayList<Category> = arrayListOf()
+    ListAdapter<Category, CategoryAdapter.ViewHolder>(CategoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = CategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            CategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val currentItem = categoryList[position]
-        holder.binding.apply {
-            titleTextView.text = currentItem.nameEn
-            Glide.with(context)
-                .load(currentItem.image)
-                .into(productImageView)
-        }
-
+        val currentItem = getItem(position)
+        holder.bind(category = currentItem, context = context)
     }
 
-    override fun getItemCount(): Int {
-        return categoryList.count()
-    }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(categoryList: ArrayList<Category>) {
-        this.categoryList = categoryList
-        notifyDataSetChanged()
+        this.submitList(categoryList)
     }
 
-    class ViewHolder(val binding: CategoryItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(private val binding: CategoryItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(category: Category, context: Context) {
+            binding.apply {
+                titleTextView.text = category.nameEn
+                Glide.with(context)
+                    .load(category.image)
+                    .into(productImageView)
+            }
+        }
+    }
+
+}
+
+class CategoryDiffCallback : DiffUtil.ItemCallback<Category>() {
+    override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
+        return oldItem == newItem
+    }
 
 }
