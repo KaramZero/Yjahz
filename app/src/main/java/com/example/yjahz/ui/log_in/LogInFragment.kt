@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.yjahz.R
@@ -60,11 +59,6 @@ class LogInFragment : Fragment() {
                     binding.progressBar.visibility = View.VISIBLE
                 }
                 ERROR -> {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.wrong_emal_or_password),
-                        Toast.LENGTH_LONG
-                    ).show()
                     binding.logInButton.isEnabled = true
                     binding.progressBar.visibility = View.GONE
                 }

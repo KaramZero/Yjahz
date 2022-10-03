@@ -1,6 +1,5 @@
-package com.example.yjahz.model
+package com.example.yjahz.model.seller
 
-import com.example.yjahz.model.seller.Seller
 import com.google.gson.annotations.SerializedName
 
 

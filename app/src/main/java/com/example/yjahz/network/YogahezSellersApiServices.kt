@@ -1,7 +1,7 @@
 package com.example.yjahz.network
 
-import com.example.yjahz.model.SellerResponse
-import com.example.yjahz.model.CategoryResponse
+import com.example.yjahz.model.seller.SellerResponse
+import com.example.yjahz.model.category.CategoryResponse
 import retrofit2.http.*
 
 interface YogahezSellersApiServices {

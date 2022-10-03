@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yjahz.model.Category
+import com.example.yjahz.model.category.Category
 import com.example.yjahz.model.seller.Seller
 import com.example.yjahz.remote_source.SellersRemoteSource
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,6 +1,6 @@
 package com.example.yjahz.remote_source
 
-import com.example.yjahz.model.Category
+import com.example.yjahz.model.category.Category
 import com.example.yjahz.model.seller.Seller
 import com.example.yjahz.network.YogahezSellersApiServices
 import javax.inject.Inject

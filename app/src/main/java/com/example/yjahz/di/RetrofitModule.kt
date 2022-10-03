@@ -2,8 +2,6 @@ package com.example.yjahz.di
 
 import androidx.databinding.ktx.BuildConfig
 import com.example.yjahz.network.Keys
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,12 +30,6 @@ object RetrofitModule {
             .Builder()
             .build()
     }
-
-    @Singleton
-    @Provides
-    fun provideMoshi(): Moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .build()
 
     @Singleton
     @Provides

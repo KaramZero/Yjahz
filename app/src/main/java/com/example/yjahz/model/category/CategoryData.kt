@@ -1,4 +1,4 @@
-package com.example.yjahz.model
+package com.example.yjahz.model.category
 
 import com.google.gson.annotations.SerializedName
 
