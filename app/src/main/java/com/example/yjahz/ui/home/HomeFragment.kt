@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Slide
@@ -28,6 +28,7 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var popularSellerAdapter: PopularSellerAdapter
 
+    private val viewModel : HomeViewModel by viewModels()
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -49,9 +50,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setAdaptersOnViews(categoryAdapter, trendingSellerAdapter, popularSellerAdapter)
-
-
-        val viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         viewModel.loadDataFromApi()
 

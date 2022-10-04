@@ -13,7 +13,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.yjahz.R
 import com.example.yjahz.databinding.FragmentLogInBinding
@@ -26,6 +26,7 @@ class LogInFragment : Fragment() {
 
     private var _binding: FragmentLogInBinding? = null
     private val binding get() = _binding!!
+    private val viewModel : LogInViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,9 +44,6 @@ class LogInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val viewModel = ViewModelProvider(this)[LogInViewModel::class.java]
-
 
         binding.logInButton.setOnClickListener {
             viewModel.logIn(
